@@ -18,4 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // Jotenkin metodin nimestä kohdasta CategoryId Spring tajuaa että halutaan hakea
     // category_id sarakkeen mukaan? Tama on suurta noituutta!
     Page<Product> findByCategoryId(@RequestParam("id") Long id, Pageable pageable);
+
+    Page<Product> findByNameContaining(@RequestParam("name") String name, Pageable pageable);
 }
