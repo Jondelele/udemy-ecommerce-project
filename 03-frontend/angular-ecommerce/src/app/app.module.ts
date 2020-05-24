@@ -10,6 +10,7 @@ import { Routes, RouterModule } from "@angular/router";
 
 // Jarjestyksella on valia! Top route always wins!! Joten lopussa 404 not found page!
 // Muista asettaa routteri importeissa hieman tasta alempana!
+// Routter otetaan käyttöön mainissa laittamalla HTML pagelle: <router-outlet></router-outlet>
 const routes: Routes = [
   // Kun pathi matchaa niin luodaa uusi instanssi komponentista ProductListComponent
   { path: 'category/:id', component: ProductListComponent },

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from "../../services/product.service";
 import { Product } from "../../common/product";
+import {ActivatedRoute} from "@angular/router";
 
 // @Component avainsanalla määritellään että mitkä templatet eli HTML ja CSS filut näyettään tässä komponentissa
 // @Component avainsana määrittelee myös selectorin app-product-list, jotta komponentti kyetää injektoimaan
@@ -11,19 +12,19 @@ import { Product } from "../../common/product";
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list-grid.component.html',
-  // templateUrl: './product-list-table.component.html',
-  // templateUrl: './product-list-.component.html',
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
   // Luodaan jäsenmuuttujat johon tallennetaan Product:it sen jälkeen kun tama product-list komponentti
   // initialisoidaan, eli heti kun kayttaja menee sivulle, jossa tämä komponentti on injektoituna.
   products: Product[];
+  currentCategoryId: number;
 
   // ProductService service injektoidaan product-list komponenttiin tassa constructorissa, jotta serviceen
   // paastaan käsiksi tässä komponentissa(ja saadaan haettua dataa backista servicella)!
   // Huomaa millainen TS syntaxi on kyseessä! Muista private näkyvyys asettaa!
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService,
+              private route: ActivatedRoute) { }
 
   // ngOnInit() funkkari lauotaan heti kun tämä komponentti käynnistetään, se kutsuu taman komponentin funkkaria
   // listProducts(), joka taas tilaa/subscribee servicen productService funkkarin getProductList().
@@ -34,11 +35,24 @@ export class ProductListComponent implements OnInit {
   //                            <td>{{ tempProduct.name }}</td>
   //                       </tr>
   ngOnInit() {
-    this.listProducts();
+    this.route.paramMap.subscribe(() => {
+      this.listProducts();
+    });
   }
 
   listProducts() {
-    this.productService.getProductList().subscribe(
+    // check if "id" parameter is available
+    const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
+
+    if (hasCategoryId) {
+      this.currentCategoryId = +this.route.snapshot.paramMap.get('id');
+
+    } else {
+      // no category id available -> default to 1
+      this.currentCategoryId = 1;
+    }
+
+    this.productService.getProductList(this.currentCategoryId).subscribe(
       data => {
         this.products = data;
       }

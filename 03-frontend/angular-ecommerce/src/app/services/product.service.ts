@@ -18,7 +18,9 @@ export class ProductService {
   // TypeScriptissä todella hassu paluuarvon paikka koska se tulee paramien jälkeen
   // ja juuri ennen varsinaista koodia ja ekaa aaltosuljetta. Service laitetaan palauttamaan Observable<Product[]>
   // objecti, jonka avulla spring backarilta saatu data mappaantuu TS koodin puolella Product TS luokan mukaisesti.
-  getProductList(): Observable<Product[]> {
+  getProductList(theCategoryId: number): Observable<Product[]> {
+    // @TODO: need to build URL based on the given category id! Will come back to this!
+
     // < ja > merkkien välissä on GetResponse interface, koska se maarittaa minkäläiseksi haettu JSON data castataan.
     // Paramteriksi ei tarvita mitään muuta kuin URL, josta JSON product data haetaan. Palautunut vastaus ohjataan
     // pipellä map funktiolle, joka hakee tuotteet responsesta _embedded.products attribuutista.
