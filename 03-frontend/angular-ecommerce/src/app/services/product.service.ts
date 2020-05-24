@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Product } from "../common/product";
 import { map } from "rxjs/operators";
+import {ProductCategory} from "../common/product-category";
 
 // @Injectable dekoraattori ProductService luokan päällä tarkoittaa että tämä service kyetään injektoimaan
 // komponenttiin root eli kaikkiin komponetteihin koska root on se pää komponentti
@@ -13,6 +14,7 @@ export class ProductService {
 
   private baseUrl = 'http://localhost:8081/api/products';
 
+  private categoryUrl = 'http://localhost:8081/api/product-category';
   constructor(private httpClient: HttpClient) { }
 
   // TypeScriptissä todella hassu paluuarvon paikka koska se tulee paramien jälkeen
@@ -22,20 +24,32 @@ export class ProductService {
     // Luodaan uusi URL category id:n mukaan
     const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`;
 
-    // < ja > merkkien välissä on GetResponse interface, koska se maarittaa minkäläiseksi haettu JSON data castataan.
+    // < ja > merkkien välissä on GetResponseProducts interface, koska se maarittaa minkäläiseksi haettu JSON data castataan.
     // Paramteriksi ei tarvita mitään muuta kuin URL, josta JSON product data haetaan. Palautunut vastaus ohjataan
     // pipellä map funktiolle, joka hakee tuotteet responsesta _embedded.products attribuutista.
     // _embedded on siis olio, jonka sisällä on products lista, jonka sisällä siis productit tuotteet ovat!!!
-    return this.httpClient.get<GetResponse>(searchUrl).pipe(
+    return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(
       map(response => response._embedded.products)
     );
+  }
+
+  getProductCategories(): Observable<ProductCategory[]>{
+    return this.httpClient.get<GetResponseProductCategories>(this.categoryUrl).pipe(
+      map(response => response._embedded.productCategory)
+    )
   }
 }
 
 // Unwrappaa JSON datan Spring Data REST kirjaston palauttamasta _embedded entrysta!!
-// interface GetResponse määrittää mihin muotoon REST API:n palauttama palautus castataan.
-interface GetResponse {
+// interface GetResponseProducts määrittää mihin muotoon REST API:n palauttama palautus castataan.
+interface GetResponseProducts {
   _embedded: {
     products: Product[];
+  }
+}
+
+interface GetResponseProductCategories {
+  _embedded: {
+    productCategory: ProductCategory[];
   }
 }
