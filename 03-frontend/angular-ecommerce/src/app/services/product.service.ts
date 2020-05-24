@@ -32,6 +32,7 @@ export class ProductService {
   }
 }
 
+// Unwrappaa JSON datan Spring Data REST kirjaston palauttamasta _embedded entrysta!!
 // interface GetResponse määrittää mihin muotoon REST API:n palauttama palautus castataan.
 interface GetResponse {
   _embedded: {
