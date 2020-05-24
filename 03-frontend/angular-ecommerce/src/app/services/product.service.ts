@@ -11,7 +11,7 @@ import { map } from "rxjs/operators";
 })
 export class ProductService {
 
-  private baseUrl = 'http://localhost:8081/api/product';
+  private baseUrl = 'http://localhost:8081/api/products';
 
   constructor(private httpClient: HttpClient) { }
 
