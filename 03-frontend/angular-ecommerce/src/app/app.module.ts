@@ -6,12 +6,26 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import {HttpClientModule} from "@angular/common/http";
 import {ProductService} from "./services/product.service";
 
+import { Routes, RouterModule } from "@angular/router";
+
+// Jarjestyksella on valia! Top route always wins!! Joten lopussa 404 not found page!
+// Muista asettaa routteri importeissa hieman tasta alempana!
+const routes: Routes = [
+  // Kun pathi matchaa niin luodaa uusi instanssi komponentista ProductListComponent
+  { path: 'category/:id', component: ProductListComponent },
+  { path: 'category', component: ProductListComponent },
+  { path: 'products', component: ProductListComponent },
+  { path: '', redirectTo: '/products', pathMatch: 'full' },
+  { path: '**', redirectTo: '/products', pathMatch: 'full' },
+];
+
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent
   ],
   imports: [
+    RouterModule.forRoot(routes),
     BrowserModule,
     HttpClientModule
   ],
