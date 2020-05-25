@@ -15,7 +15,13 @@ export class ProductService {
   private baseUrl = 'http://localhost:8081/api/products';
 
   private categoryUrl = 'http://localhost:8081/api/product-category';
+
   constructor(private httpClient: HttpClient) { }
+
+  getProduct(theProductId: number): Observable<Product> {
+    const productUrl = `${this.baseUrl}/${theProductId}`;
+    return this.httpClient.get<Product>(productUrl);
+  }
 
   // TypeScriptissä todella hassu paluuarvon paikka koska se tulee paramien jälkeen
   // ja juuri ennen varsinaista koodia ja ekaa aaltosuljetta. Service laitetaan palauttamaan Observable<Product[]>
