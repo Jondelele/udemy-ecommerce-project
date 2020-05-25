@@ -9,11 +9,13 @@ import {ProductService} from "./services/product.service";
 import { Routes, RouterModule } from "@angular/router";
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 import { SearchComponent } from './components/search/search.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 // Jarjestyksella on valia! Top route always wins!! Joten lopussa 404 not found page!
 // Muista asettaa routteri importeissa hieman tasta alempana!
 // Routter otetaan käyttöön mainissa laittamalla HTML pagelle: <router-outlet></router-outlet>
 const routes: Routes = [
+  { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'search/:keyword', component: ProductListComponent },
   // Kun pathi matchaa niin luodaa uusi instanssi komponentista ProductListComponent
   { path: 'category/:id', component: ProductListComponent },
@@ -28,7 +30,8 @@ const routes: Routes = [
     AppComponent,
     ProductListComponent,
     ProductCategoryMenuComponent,
-    SearchComponent
+    SearchComponent,
+    ProductDetailsComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
