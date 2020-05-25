@@ -28,15 +28,27 @@ export class ProductService {
     // Paramteriksi ei tarvita mitään muuta kuin URL, josta JSON product data haetaan. Palautunut vastaus ohjataan
     // pipellä map funktiolle, joka hakee tuotteet responsesta _embedded.products attribuutista.
     // _embedded on siis olio, jonka sisällä on products lista, jonka sisällä siis productit tuotteet ovat!!!
-    return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(
-      map(response => response._embedded.products)
-    );
+    return this.getProducts(searchUrl);
   }
 
   getProductCategories(): Observable<ProductCategory[]>{
     return this.httpClient.get<GetResponseProductCategories>(this.categoryUrl).pipe(
       map(response => response._embedded.productCategory)
     )
+  }
+
+  // Service jolla haetaan backarista dataa search komponettia varten
+  searchProduct(theCategoryId: string): Observable<Product[]> {
+    // Need to build URL based on the keyword
+    const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${theCategoryId}`;
+
+    return this.getProducts(searchUrl);
+  }
+
+  private getProducts(searchUrl: string) {
+    return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(
+      map(response => response._embedded.products)
+    );
   }
 }
 

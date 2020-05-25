@@ -19,6 +19,7 @@ export class ProductListComponent implements OnInit {
   // initialisoidaan, eli heti kun kayttaja menee sivulle, jossa tämä komponentti on injektoituna.
   products: Product[];
   currentCategoryId: number;
+  searchMode: boolean;
 
   // ProductService service injektoidaan product-list komponenttiin tassa constructorissa, jotta serviceen
   // paastaan käsiksi tässä komponentissa(ja saadaan haettua dataa backista servicella)!
@@ -41,6 +42,29 @@ export class ProductListComponent implements OnInit {
   }
 
   listProducts() {
+    // Gets the search mode query/path parameter from search/:keyword
+    this.searchMode = this.route.snapshot.paramMap.has('keyword');
+
+    if (this.searchMode) {
+      this.handleSearchProducts();
+    } else {
+      this.handleListProducts();
+    }
+
+  }
+
+  private handleSearchProducts() {
+    const theKeyword: string = this.route.snapshot.paramMap.get('keyword');
+
+    // Now search for the products using keyword
+    this.productService.searchProduct(theKeyword).subscribe(
+      data => {
+        this.products = data;
+      }
+    );
+  }
+
+  handleListProducts() {
     // check if "id" parameter is available
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
 
@@ -58,5 +82,4 @@ export class ProductListComponent implements OnInit {
       }
     )
   }
-
 }
