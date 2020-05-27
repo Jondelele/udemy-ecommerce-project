@@ -10,7 +10,8 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class ProductDetailsComponent implements OnInit {
 
-  product: Product;
+  product: Product = new Product();
+
   // Injektoidaan ProductService alla tänne komponentin koodiin
   // Samalla constructorissa injektoidaan
   constructor(private productService: ProductService,

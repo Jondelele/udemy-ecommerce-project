@@ -5,6 +5,7 @@
 // Product luokkaa käyettään myös kun servicen hakema JSON lista castataan Product muotoon
 // interfacessa GetResponse
 export class Product {
+  id: string;
   sku: string;
   name: string;
   description: string;
