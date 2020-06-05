@@ -13,11 +13,13 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartStatusComponent } from './components/cart-status/cart-status.component';
+import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 
 // Jarjestyksella on valia! Top route always wins!! Joten lopussa 404 not found page!
 // Muista asettaa routteri importeissa hieman tasta alempana!
 // Routter otetaan käyttöön mainissa laittamalla HTML pagelle: <router-outlet></router-outlet>
 const routes: Routes = [
+  { path: 'cart-details', component: CartDetailsComponent },
   { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'search/:keyword', component: ProductListComponent },
   // Kun pathi matchaa niin luodaa uusi instanssi komponentista ProductListComponent
@@ -35,7 +37,8 @@ const routes: Routes = [
     ProductCategoryMenuComponent,
     SearchComponent,
     ProductDetailsComponent,
-    CartStatusComponent
+    CartStatusComponent,
+    CartDetailsComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
