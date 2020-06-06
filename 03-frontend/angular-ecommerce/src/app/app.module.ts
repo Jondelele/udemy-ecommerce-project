@@ -14,11 +14,13 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartStatusComponent } from './components/cart-status/cart-status.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 // Jarjestyksella on valia! Top route always wins!! Joten lopussa 404 not found page!
 // Muista asettaa routteri importeissa hieman tasta alempana!
 // Routter otetaan käyttöön mainissa laittamalla HTML pagelle: <router-outlet></router-outlet>
 const routes: Routes = [
+  { path: 'checkout', component: CheckoutComponent },
   { path: 'cart-details', component: CartDetailsComponent },
   { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'search/:keyword', component: ProductListComponent },
@@ -38,7 +40,8 @@ const routes: Routes = [
     SearchComponent,
     ProductDetailsComponent,
     CartStatusComponent,
-    CartDetailsComponent
+    CartDetailsComponent,
+    CheckoutComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

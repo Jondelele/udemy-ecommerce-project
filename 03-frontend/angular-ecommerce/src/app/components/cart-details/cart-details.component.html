@@ -1,29 +1,34 @@
 <div class="main-content">
   <div class="section-content section-content-p30">
     <div class="container-fluid">
-
+      <!-- UUSI tabeli alla -->
+      <!-- Piilotetaan tabeli jos cartissa ei ole ainuttakaan elementtia -->
       <div *ngIf="cartItems.length > 0">
         <table class="table table-bordered">
           <tr>
             <th width="20%">Product Image</th>
-            <th width="50%">Product Image</th>
-            <th width="20%"></th>
+            <th width="50%">Product Info</th>
+            <th width="20%">Quantity / Subtotal</th>
           </tr>
 
+          <!-- Toistetaan table roweja niin kauan kuin cartItemeja riittää -->
           <tr *ngFor="let tempCartItem of cartItems">
+            <!-- Toistetaan tämän rowin sisällä kolmea data data cellia jotka ovat siis sarakkeet -->
+            <!-- Ensimmäiseen data celliin laitetaan tuotteen kuva -->
             <td>
               <img src="{{ tempCartItem.imageUrl }}" class="img-responsive" width="150px"/>
             </td>
+            <!-- Keskimmäiseen data celliin laitetaan tuotteen nimi ja ja yksikköhinta -->
             <td>
               <p>{{ tempCartItem.name }}</p>
               <p>{{ tempCartItem.unitPrice | currency: 'USD' }}</p>
             </td>
+            <!-- Oikeanpuoleisimpaan data celliin laitetaan tuotteen lkm ja napit "+", "-" ja "Remove" -->
             <td>
               <div class="items">
                 <label>Quantity:</label>
 
                 <div class="row no-gutters">
-
                   <div class="col">
                     <button (click)="incrementQuantity(tempCartItem)" class="btn btn-primary btn-sm">
                       <i class="fas fa-plus"></i>
@@ -41,26 +46,32 @@
                   </div>
 
                   <div class="col-8">
-                    <button (click)="remove(tempCartItem)" class="btn btn-primary btn-sm">Vittu testi</button>
+                    <button (click)="remove(tempCartItem)" class="btn btn-primary btn-sm">Remove</button>
                   </div>
 
                 </div>
               </div>
 
               <p class="mt-2">Subtotal: {{ tempCartItem.quantity * tempCartItem.unitPrice | currency: 'USD' }}</p>
+
             </td>
+
           </tr>
 
+          <!-- Viimeiseen data rowiin oikeanpuoleisimpaan celliin tulee yhteenlaskettuhinta -->
           <tr>
             <td colspan="2"></td>
             <td style="font-weight: bold">
               <p>Total Quantity: {{ totalQuantity }}</p>
               <p>Shipping: FREE</p>
               <p>Total Price: {{ totalPrice | currency: 'USD' }}</p>
+              <a routerLink="/checkout" class="btn btn-primary">Checkout</a>
             </td>
           </tr>
+
         </table>
-      </div>
+      </div><!-- *ngIf="cartItems.length > 0" -->
+      <!-- UUSI tabeli ylla -->
 
       <!-- If cart is empty then display a message -->
       <div *ngIf="cartItems.length == 0" class="alert alert-warning col-md-12" role="alert">
